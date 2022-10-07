@@ -1,0 +1,120 @@
+package com.safeareasrn;
+
+import static android.view.WindowInsets.Type.systemBars;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowInsetsController;
+import android.view.WindowManager;
+
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
+
+import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactRootView;
+
+public class MainActivity extends ReactActivity {
+
+  /**
+   * Returns the name of the main component registered from JavaScript. This is used to schedule
+   * rendering of the component.
+   */
+  @Override
+  protected String getMainComponentName() {
+    return "SafeAreasRn";
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+    getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+    WindowInsetsControllerCompat insetsController = ViewCompat.getWindowInsetsController(getWindow().getDecorView());
+    insetsController.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+    insetsController.hide(WindowInsetsCompat.Type.systemBars());
+
+    ViewGroup rootView = (ViewGroup) findViewById(android.R.id.content).getRootView();
+    View rootViewChild = rootView.getChildAt(0);
+
+//    ViewCompat.setOnApplyWindowInsetsListener(rootView, (v, insets) -> {
+//      rootView.setFitsSystemWindows(true);
+//      int keyboardHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom;
+//      int bottomInset = Math.max(keyboardHeight, 0);
+//
+//      WindowInsetsCompat windowInsetsCompat = new WindowInsetsCompat.Builder()
+//              .setInsets(WindowInsetsCompat.Type.systemBars(),
+//                      Insets.of(0, 0, 0, bottomInset))
+//              .build();
+//
+//      ViewCompat.onApplyWindowInsets(rootViewChild, windowInsetsCompat);
+//      return windowInsetsCompat;
+//    });
+
+//    val rootViewChild = rootView?.getChildAt(0)!!
+//
+//            ViewCompat.setOnApplyWindowInsetsListener(rootView) { _, insets ->
+//            rootView.fitsSystemWindows = true
+//      val keyboardHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+//      val bottomInset = maxOf(a = keyboardHeight, b = 0)
+//
+//      WindowInsetsCompat
+//              .Builder()
+//              .setInsets(
+//                      WindowInsetsCompat.Type.systemBars(),
+//                      Insets.of(0, 0, 0, bottomInset),
+//                      )
+//              .build()
+//              .apply {
+//        ViewCompat.onApplyWindowInsets(rootViewChild, this)
+//      }
+//    }
+
+//    View decorView = getWindow().getDecorView();
+//    int systemUiVisibility = decorView.getSystemUiVisibility();
+//    int flags = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//            | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+//
+//
+//    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//    systemUiVisibility |= flags;
+  }
+
+  /**
+   * Returns the instance of the {@link ReactActivityDelegate}. There the RootView is created and
+   * you can specify the renderer you wish to use - the new renderer (Fabric) or the old renderer
+   * (Paper).
+   */
+  @Override
+  protected ReactActivityDelegate createReactActivityDelegate() {
+    return new MainActivityDelegate(this, getMainComponentName());
+  }
+
+  public static class MainActivityDelegate extends ReactActivityDelegate {
+    public MainActivityDelegate(ReactActivity activity, String mainComponentName) {
+      super(activity, mainComponentName);
+    }
+
+    @Override
+    protected ReactRootView createRootView() {
+      ReactRootView reactRootView = new ReactRootView(getContext());
+      // If you opted-in for the New Architecture, we enable the Fabric Renderer.
+      reactRootView.setIsFabric(BuildConfig.IS_NEW_ARCHITECTURE_ENABLED);
+      return reactRootView;
+    }
+
+    @Override
+    protected boolean isConcurrentRootEnabled() {
+      // If you opted-in for the New Architecture, we enable Concurrent Root (i.e. React 18).
+      // More on this on https://reactjs.org/blog/2022/03/29/react-v18.html
+      return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
+    }
+  }
+}
