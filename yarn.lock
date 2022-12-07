@@ -5774,9 +5774,10 @@ react-native-safe-area-context@4.4.1:
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.4.1.tgz#239c60b8a9a80eac70a38a822b04c0f1d15ffc01"
   integrity sha512-N9XTjiuD73ZpVlejHrUWIFZc+6Z14co1K/p1IFMkImU7+avD69F3y+lhkqA2hN/+vljdZrBSiOwXPkuo43nFQA==
 
-"react-native-webview@https://github.com/discord/react-native-webview/archive/9cce9a32ff44fbb1b00859b2e717dab151082ff3.tar.gz":
-  version "11.18.1"
-  resolved "https://github.com/discord/react-native-webview/archive/9cce9a32ff44fbb1b00859b2e717dab151082ff3.tar.gz#d2a29494bd830dc135411898ea5a5516bc7f3926"
+react-native-webview@11.25.0:
+  version "11.25.0"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-11.25.0.tgz#fd2e0265224192d7381443cec732af56d6ca4d69"
+  integrity sha512-yq3con7vDQUQKAyl9a7pJaR3A1/cI0K2AeRhGugXfWQfdsne18pddJwQuOsc63khecipeCbB8pthCqw0UlsgVw==
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"

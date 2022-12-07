@@ -2,12 +2,6 @@ import { Dirs, FileSystem } from 'react-native-file-access';
 
 const generateWebviewHtml = (
   iFrameUri: string,
-  safeAreas: {
-    top: number,
-    left: number,
-    right: number,
-    bottom: number,
-  }
 ) => `
   <!DOCTYPE html>
   <html>
@@ -28,35 +22,17 @@ const generateWebviewHtml = (
   <body>
       <iframe id="activityFrame" width="100%" height="100%" src="${iFrameUri}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
       </iframe>
-      <script>
-        // Get the root element
-        var iframe = document.getElementById("activityFrame");
-        iframe.addEventListener("load", () => {
-          var doc = iframe.contentWindow.document;
-          doc.documentElement.style.setProperty('--discord-safe-area-inset-left', '${safeAreas.left}px');
-        	doc.documentElement.style.setProperty('--discord-safe-area-inset-right', '${safeAreas.right}px');
-        	doc.documentElement.style.setProperty('--discord-safe-area-inset-top', '${safeAreas.top}px');
-        	doc.documentElement.style.setProperty('--discord-safe-area-inset-bottom', '${safeAreas.bottom}px');
-        });
-      </script> 
   </body>
   </html>
 `;
 
 export default async function createWebviewHtmlFile({
   iFrameUri,
-  safeAreas,
 }: {
-  iFrameUri: string;
-  safeAreas: {
-    top: number,
-    left: number,
-    right: number,
-    bottom: number,
-  }
+  iFrameUri: string
 }) {
   const filename = Dirs.CacheDir + '/activity.html';
-  const html = generateWebviewHtml(iFrameUri, safeAreas);
+  const html = generateWebviewHtml(iFrameUri);
 
   try {
      await FileSystem.writeFile(filename, html, 'utf8');

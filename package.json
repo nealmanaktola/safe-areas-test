@@ -12,7 +12,7 @@
   "dependencies": {
     "react": "18.1.0",
     "react-native": "0.70.1",
-    "react-native-webview": "https://github.com/discord/react-native-webview/archive/9cce9a32ff44fbb1b00859b2e717dab151082ff3.tar.gz",
+    "react-native-webview": "11.25.0",
     "react-native-file-access": "2.5.0",
     "react-native-safe-area-context": "4.4.1"
   },

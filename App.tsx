@@ -10,50 +10,46 @@
 
 import React from 'react';
 import {
+  StyleSheet,
   View,
+  NativeModules,
+  Button
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import createWebviewHtmlFile from './createHtml';
-import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+const ImmersiveMode = NativeModules.ImmersiveModeModule;
 
 const Activity = () => {
   const [source, setSource] = React.useState<string | null>(null);
-  const insets = useSafeAreaInsets();
-  const webViewRef = React.useRef<WebView>();
 
   React.useEffect(() => {
     createWebviewHtmlFile({
-      iFrameUri: "http://192.168.2.25:8083/",
-      safeAreas: insets,
+      iFrameUri: "https://www.google.com/",
     }).then((path) => {
+      console.log('got path', path);
       setSource(path);
     })
   }, []);
-
-  React.useEffect(() => {
-    webViewRef?.current?.injectJavaScript(
-      `
-        var iframeDoc = document.getElementById("activityFrame").contentWindow.document;
-        iframeDoc.documentElement.style.setProperty('--discord-safe-area-inset-left', '${insets.left}px');
-        iframeDoc.documentElement.style.setProperty('--discord-safe-area-inset-right', '${insets.right}px');
-        iframeDoc.documentElement.style.setProperty('--discord-safe-area-inset-top', '${insets.top}px');
-        iframeDoc.documentElement.style.setProperty('--discord-safe-area-inset-bottom', '${insets.bottom}px');
-      `
-    );
-  }, [insets])
 
   if (source == null) return null;
 
   return (
     <View style={{flex: 1}}>
       <WebView
-        ref={webViewRef}
         source={{
-          uri: `file://${source}`
+          uri: `https://google.com`
         }}
-        allowUniversalAccessFromFileURLs
-        allowFileAccess>
+        originWhitelist={['*']}
+        allowFileAccess
+        >
       </WebView>
+      <View style={[StyleSheet.absoluteFill, {justifyContent: 'center'}]}>
+        <Button title="Show Bars" onPress={() => ImmersiveMode.toggleSystemBars(true)} />
+        <View style={{paddingTop: 10}}></View>
+        <Button title="Hide Bars" onPress={() => ImmersiveMode.toggleSystemBars(false)} />
+      </View>
     </View>
   );
 };
